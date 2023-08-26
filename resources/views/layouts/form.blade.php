@@ -16,6 +16,8 @@
   <link href="{{ asset('js/plugins/@fortawesome/fontawesome-free/css/all.min.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="{{ asset('css/argon-dashboard.css?v=1.1.2') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nombre+de+la+Fuente">
 </head>
 
 <body class="bg-white">
@@ -24,7 +26,7 @@
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
       <div class="container px-4">
         <a class="navbar-brand" href="../index.html">
-          <img src="{{ asset('img/brand/white.png') }}" />
+          <img src="{{ asset('img/brand/white1.png') }}" class="logo" alt="Logo" />
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -50,26 +52,26 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link nav-link-icon" href="../index.html">
-                <i class="ni ni-planet"></i>
-                <span class="nav-link-inner--text">Dashboard</span>
+                <i class="fa-brands fa-facebook" ></i>
+                <span class="nav-link-inner--text">Facebook</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-link-icon" href="../examples/register.html">
-                <i class="ni ni-circle-08"></i>
-                <span class="nav-link-inner--text">Register</span>
+                <i class="fa-brands fa-instagram" style="color: #ffffff;"></i>
+                <span class="nav-link-inner--text">Instagram</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-link-icon" href="../examples/login.html">
-                <i class="ni ni-key-25"></i>
-                <span class="nav-link-inner--text">Login</span>
+                <i class="fa-brands fa-tiktok" style="color: #ffffff;"></i>
+                <span class="nav-link-inner--text">TicTok</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link nav-link-icon" href="../examples/profile.html">
-                <i class="ni ni-single-02"></i>
-                <span class="nav-link-inner--text">Profile</span>
+                <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i>
+                <span class="nav-link-inner--text">Whatsapp</span>
               </a>
             </li>
           </ul>
@@ -82,8 +84,7 @@
         <div class="header-body text-center mb-7">
           <div class="row justify-content-center">
             <div class="col-lg-5 col-md-6">
-              <h1 class="text-white">Welcome!</h1>
-              <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for free.</p>
+              <p class="h1 text-white">Salud Oral Avanzada</p>
             </div>
           </div>
         </div>
