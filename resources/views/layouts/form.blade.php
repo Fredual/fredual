@@ -74,6 +74,19 @@
                 <span class="nav-link-inner--text">Whatsapp</span>
               </a>
             </li>
+            <!-- Prueba -->
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" href="{{route('login')}}">
+                <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i>
+                <span class="nav-link-inner--text">Login</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link nav-link-icon" href="{{route('register')}}">
+                <i class="fa-brands fa-whatsapp" style="color: #ffffff;"></i>
+                <span class="nav-link-inner--text">Registro</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
