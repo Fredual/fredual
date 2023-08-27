@@ -15,7 +15,7 @@
             {{ $errors->first() }}
           </div>
           @else
-          <div class="text-center text-muted mb-4">
+          <div class="text-center text-dark mb-4">
             <small>Ingresa tus credenciales para ingresar al sistema</small>
           </div>
           @endif
@@ -44,17 +44,17 @@
               </label>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-primary my-4">Ingresar</button>
+              <button type="submit" class="btn btn-default my-4">Ingresar</button>
             </div>
           </form>
         </div>
       </div>
       <div class="row mt-3">
         <div class="col-6">
-          <a href="{{ route('password.request') }}" class="text-light"><small>¿Olvidaste tu contraseña?</small></a>
+          <a href="{{ route('password.request') }}" class="text-dark"><small>¿Olvidaste tu contraseña?</small></a>
         </div>
         <div class="col-6 text-right">
-          <a href="{{ route('register') }}" class="text-light"><small>Crear cuenta nueva</small></a>
+          <a href="{{ route('register') }}" class="text-dark"><small>Crear cuenta nueva</small></a>
         </div>
       </div>
     </div>
