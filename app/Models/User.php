@@ -42,4 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function scopePatients($query){
+        return $query->where('role','paciente');
+    }
+
+    public function scopeDoctors($query){
+        return $query->where('role','doctor');
+    }
 }
