@@ -15,7 +15,7 @@
   <div class="card-body">
   @if (session('notification'))
     <div class="alert alert-success" role="alert">
-      <strong><i class="fa fa-stethoscope"></i></strong>{{session('notification')}}
+      <strong><i class="fa fa-user-md"></i></strong>{{session('notification')}}
     </div>
   @endif
   </div>
@@ -48,6 +48,9 @@
         @endforeach
       </tbody>
     </table>
+  </div>
+  <div class="cord-body">
+    {{$doctors->links()}}
   </div>
 </div>
 @endsection

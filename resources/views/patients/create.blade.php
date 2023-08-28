@@ -1,3 +1,6 @@
+<?php 
+use Illuminate\Support\Str;
+?>
 @extends('layouts.panel')
 
 @section('content')
@@ -26,8 +29,8 @@
     <form action="{{url('/pacientes')}}" method="post">
         @csrf
         <div class="form-group">
-            <label for="nombre">Nombre del Paciente</label>
-            <input type="text" name="nombre" class="form-control" value="{{old('nombre')}}" required>
+            <label for="name">Nombre del Paciente</label>
+            <input type="text" name="name" class="form-control" value="{{old('name')}}" required>
         </div>
         <div class="form-group">
             <label for="email">Correo Electronico</label>
@@ -45,6 +48,10 @@
             <label for="phone">Teléfono / Móvil</label>
             <input type="text" name="phone" class="form-control" value="{{old('phone')}}">
         </div>
+        <div class="form-group">
+          <label for="password">Contreseña</label>
+          <input type="text" name="password" class="form-control" value="{{old('password', Str::random(8))}}">
+      </div>
         <button type="submit" class="btn btn-sm btn-primary">Crear Paciente</button>
     </form>
   </div>
