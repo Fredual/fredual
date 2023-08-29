@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Controllers\Controller;
 
-class PatientController extends Controller
+class DoctorController extends Controller
 {
+    
     public function index()
     {
-        $patients = User::patients()->paginate(10);
-        return view('patients.index', compact('patients'));
+        $doctors = User::doctors()->paginate(10);
+        return view('doctors.index', compact('doctors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        return view('patients.create');
+        return view('doctors.create');
     }
 
     /**
@@ -35,11 +35,11 @@ class PatientController extends Controller
         ];
 
         $message = [
-            'name.required' => ' El nombre del paciente es obligatorio',
-            'name.min' => ' El nombre del paciente debe tener más de 3 caracteres',
-            'email.required' => ' El correo electronico del paciente es obligatorio',
+            'name.required' => ' El nombre del médico es obligatorio',
+            'name.min' => ' El nombre del médico debe tener más de 3 caracteres',
+            'email.required' => ' El correo electronico del médico es obligatorio',
             'email.email' => ' Ingresa una dirección de correo válido',
-            'cedula.required' => ' La cédula del paciente es obligatorio',
+            'cedula.required' => ' La cédula del médico es obligatorio',
             'cedula.min' => ' La cédula debe debe tener al menos 5 digitos',
             'address.min' => ' La dirección debe tener al menos 6 caracteres',
             'phone.required' => ' El número de teléfono es obligatorio'
@@ -50,14 +50,14 @@ class PatientController extends Controller
         User::create(
             $request->only('name','email','cedula','address','phone')
             + [
-                'role' => 'paciente',
+                'role' => 'doctor',
                 'password' => bcrypt($request->input('password'))
             ]
         );
 
-        $notification = ' El paciente se ha registrado correctamente';
+        $notification = ' El médico se ha registrado correctamente';
 
-        return redirect('/pacientes')->with(compact('notification'));
+        return redirect('/medicos')->with(compact('notification'));
     }
 
     /**
@@ -68,13 +68,10 @@ class PatientController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
-    {
-        $patient = User::Patients()->findOrFail($id);
-        return view('patients.edit',compact('patient'));
+    {  
+        $doctor = User::doctors()->findOrFail($id);
+        return view('doctors.edit',compact('doctor'));
     }
 
     public function update(Request $request, string $id)
@@ -88,18 +85,18 @@ class PatientController extends Controller
         ];
 
         $message = [
-            'name.required' => ' El nombre del paciente es obligatorio',
-            'name.min' => ' El nombre del paciente debe tener más de 3 caracteres',
-            'email.required' => ' El correo electronico del paciente es obligatorio',
+            'name.required' => ' El nombre del médico es obligatorio',
+            'name.min' => ' El nombre del médico debe tener más de 3 caracteres',
+            'email.required' => ' El correo electronico del médico es obligatorio',
             'email.email' => ' Ingresa una dirección de correo válido',
-            'cedula.required' => ' La cédula del paciente es obligatorio',
+            'cedula.required' => ' La cédula del médico es obligatorio',
             'cedula.min' => ' La cédula debe debe tener al menos 5 digitos',
             'address.min' => ' La dirección debe tener al menos 6 caracteres',
             'phone.required' => ' El número de teléfono es obligatorio'
         ];
 
         $this->validate($request,$rules,$message);
-        $user = User::Patients()->findOrFail($id);
+        $user = User::doctors()->findOrFail($id);
 
         $data = $request->only('name','email','cedula','address','phone');
         $password = $request->input('password');
@@ -111,19 +108,21 @@ class PatientController extends Controller
         $user->fill($data);
         $user->save();
 
-        $notification = ' La informacion del paciente se actualizo correctamente';
+        $notification = ' La informacion del médico se actualizo correctamente';
 
-        return redirect('/pacientes')->with(compact('notification'));
+        return redirect('/medicos')->with(compact('notification'));
     }
+
 
     public function destroy(string $id)
     {
-        $user = User::Patients()->findOrFail($id);
-        $patientName = $user->name;
+        $user = User::doctors()->findOrFail($id);
+        $doctorName = $user->name;
         $user->delete();
 
-        $notification = " El paciente $patientName se elimino correctamente";
+        $notification = " El médico $doctorName se elimino correctamente";
 
-        return redirect('/pacientes')->with(compact('notification'));
+        return redirect('/medicos')->with(compact('notification'));
     }
+
 }
