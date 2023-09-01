@@ -20,6 +20,16 @@ class HorarioController extends Controller
         return view('horario',compact('days','doctors'));
     }
 
+    public function all(Request $request){
+        $id = $request->input('id');
+        $horarios = Horarios::where('user_id', $id)->get();
+        //$horarios = Horarios::all();
+
+
+        return response(json_encode($horarios),200)
+        ->header('Content-type','text/plain');
+    }
+
     public function store(Request $request){
 
         $active = $request->input('active') ?: [];

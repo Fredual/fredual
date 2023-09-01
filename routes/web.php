@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Auth/login');
 });
 
 Auth::routes();
@@ -47,6 +47,8 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'edit']);
     //Formulario para guardar horarios
     Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'store']);
+    //jquery
+    Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'all']);
 
 });
 
