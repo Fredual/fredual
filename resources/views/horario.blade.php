@@ -116,18 +116,25 @@
       
     </tbody>
   </table>
-<script>
-  $(document).ready(function() {
-      
-    $.ajax({
-        type: 'POST',
-        url: '{{ url("/horario") }}',
-        data:{
-            id:6,
-            _token:$('input[name="_token"]').val()
-        }
-    }).done(function(res){
-        var arreglo = JSON.parse(res);
+ <script>
+    $(document).ready(function() {
+      // Cuando se hace clic en un botón (o algún otro evento)
+      $("#miSelect").change(function() {
+        // Obtener el valor seleccionado del select
+        var valorSeleccionado = $(this).val();
+        // Limpiar el contenido existente en la tabla o elemento
+        $('tbody').empty();
+        // Realizar la solicitud AJAX con el valor seleccionado
+        $.ajax({
+          type: 'POST',
+          url: '{{ url("/horario") }}',
+          data: {
+            id: valorSeleccionado,
+            _token: $('input[name="_token"]').val()
+          }
+        }).done(function(res) {
+          // Resto de tu código AJAX aquí
+          var arreglo = JSON.parse(res);
         console.log('El valor es:'+arreglo.length);
         if (arreglo.length == 0) {
                 var todo = '<tr><td COLSPAN="5">No se encontro registro</td></tr>';
@@ -144,8 +151,8 @@
                 $('tbody').append(todo);
             }
         }
+        });
+      });
     });
-  });
-  </script>
-  
+</script>
 @endsection
