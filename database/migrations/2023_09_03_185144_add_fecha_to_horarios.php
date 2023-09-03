@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specialties', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nombre');
-            $table->string('descripcion')->nullable();
-            $table->timestamps();
+        Schema::table('horarios', function (Blueprint $table) {
+            $table->date('fecha_doctors');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specialties');
+        Schema::table('horarios', function (Blueprint $table) {
+            //
+        });
     }
 };

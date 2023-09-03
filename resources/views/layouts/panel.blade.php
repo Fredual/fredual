@@ -14,6 +14,7 @@
   <!-- CSS Files -->
   <link href="{{asset('css/argon-dashboard.css?v=1.1.2')}}" rel="stylesheet" />
   <script src="{{asset('js/plugins/jquery/dist/jquery.min.js')}}"></script>
+  <script src="{{asset ('js/plugins/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 </head>
 
 <body class="">

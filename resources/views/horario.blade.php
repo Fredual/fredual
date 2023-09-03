@@ -2,130 +2,87 @@
 
 @section('content')
 <form action="{{url('/horario')}}" method="POST">
-    @csrf
-    <div class="card shadow">
-        <div class="card-header border-0">
-          <div class="row align-items-center">
-            <div class="col">
-              <h2 class="mb-0">Gestion De Horarios</h2>
-            </div>
-            <div class="col">
-                <h3 class="mb-0 text-center">Selecionar Médico<br></h3>
-                <select class="form-control" id="miSelect">
+  @csrf
+  <div class="card shadow">
+    <div class="card-header border-0">
+      <div class="col">
+        <span><h2 class="mb-0">Gestion De Horarios</h2></span>
+      </div>
+      <div class="row align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <span>
+                <h5 class="mb-0">Selecionar Médico</h5>
+                <select class="form-control" id="miSelect" name="selectedValue">
+                  <option value="" selected>Seleccione un médico...</option>
                     @foreach ($doctors as $doctor)
-                        <option value="{{$doctor->id}}">{{$doctor->name}}</option>
+                      <option value="{{$doctor->id}}">{{$doctor->name}}</option>
                     @endforeach
                 </select>
+              </span>
             </div>
-            <div class="col text-right">
-              <button type="submit" class="btn btn-md btn-primary">
-                Guardar Cambios
-              </button>
+            <div class="col-sm">
+              <span>
+                <h5 class="mb-0">Selecionar Fecha</h5>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <input class="form-control datepicker" id="fechaInput" type="text" value="06/20/2020">
+                    </div>
+                  </div>
+              </span>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="botonHoras" style="margin-top: 20px" class="btn btn-default">Consultar</button>
             </div>
           </div>
         </div>
-        <div class="card-body">
-        @if (session('notification'))
-          <div class="alert alert-success" role="alert">
-            <strong><i class="fa fa-user-md"></i></strong>{{session('notification')}}
-          </div>
-        @endif
+      </div>
+    </div>
+    {{-- <div class="card-body">
+      @if (session('notification'))
+        <div class="alert alert-success" role="alert">
+          <strong><i class="fa fa-user-md"></i></strong>{{session('notification')}}
         </div>
-        <div class="table-responsive">
-        <!-- Projects table -->
-         {{--  <table class="table align-items-center table-flush text-center">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">Día</th>
-                <th scope="col">Activo</th>
-                <th scope="col">Turno Mañana</th>
-                <th scope="col">Turno Tarde</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($days as $key => $day)
-                  <tr>
-                      <th>{{$day}}</th>
-                      <td>
-                          <label class="custom-toggle">
-                              <input type="checkbox" name="active[]" value="{{$key}}" checked>
-                              <span class="custom-toggle-slider rounded-circle"></span>
-                          </label>
-                      </td>
-                      <td>
-                          <div class="row">
-                              <div class="col">
-                                  <select class="form-control" name="morning_start[]">
-                                      @for ($i = 8; $i <= 11; $i++)
-                                          <option value="{{$i}}:00">{{$i}}:00 AM</option>
-                                          <option value="{{$i}}:30">{{$i}}:30 AM</option>
-                                      @endfor
-                                  </select>
-                              </div>
-                              <div class="col">
-                                  <select class="form-control" name="morning_end[]">
-                                      @for ($i = 8; $i <= 11; $i++)
-                                          <option value="{{$i}}:00">{{$i}}:00 AM</option>
-                                          <option value="{{$i}}:30">{{$i}}:30 AM</option>
-                                      @endfor
-                                  </select>
-                              </div>
-                          </div>
-                      </td>
-                      <td>
-                          <div class="row">
-                              <div class="col">
-                                  <select class="form-control" name="afternoon_start[]">
-                                      @for ($i = 2; $i <= 11; $i++)
-                                          <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
-                                          <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
-                                      @endfor
-                                  </select>
-                              </div>
-                              <div class="col">
-                                  <select class="form-control" name="afternoon_end[]">
-                                      @for ($i = 2; $i <= 11; $i++)
-                                          <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
-                                          <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
-                                      @endfor
-                                  </select>
-                              </div>
-                          </div>
-                      </td>
-                  </tr>
-              @endforeach
-            </tbody>
-          </table> --}}
-          
-        </div>
-        
-          </div>
+      @endif
+    </div> --}}
+    <div class="table-responsive">
+      <!-- Projects table -->
+      <div id="vistaLaravel"></div>
+    </div>
+  </div>   
 </form>
-<table class="table align-items-center table-flush text-center">
-    <thead class="thead-light">
-      <tr>
-        <th scope="col">Día</th>
-        <th scope="col">Activo</th>
-        <th scope="col">Turno Mañana</th>
-        <th scope="col"></th>
-        <th scope="col">Turno Tarde</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody id="tbody">
-      
-    </tbody>
-  </table>
  <script>
     $(document).ready(function() {
-      // Cuando se hace clic en un botón (o algún otro evento)
-      $("#miSelect").change(function() {
+    // Cuando se cambia el valor en el select
+    $("#botonHoras").click(function() {
         // Obtener el valor seleccionado del select
-        var valorSeleccionado = $(this).val();
-        // Limpiar el contenido existente en la tabla o elemento
-        $('tbody').empty();
+        var valorSeleccionado = $('#miSelect').val();
+        var fechaSeleccionada = $("#fechaInput").val();
+
+        // Limpiar el contenido existente en el div
+        $('#vistaLaravel').empty();
+
         // Realizar la solicitud AJAX con el valor seleccionado
         $.ajax({
+            url: "{{ route('horario.view') }}", // Reemplaza con la ruta correcta
+            type: "GET",
+            data: { id: valorSeleccionado,
+              fecha: fechaSeleccionada }, // Enviar el id al controlador
+            dataType: "html",
+            success: function(response) {
+                $("#vistaLaravel").html(response); // Carga la vista en el div
+            },
+            error: function(xhr) {
+                // Manejar errores si es necesario
+            }
+        });
+    });
+});
+/* $.ajax({
           type: 'POST',
           url: '{{ url("/horario") }}',
           data: {
@@ -151,8 +108,8 @@
                 $('tbody').append(todo);
             }
         }
-        });
-      });
-    });
+        }); */
 </script>
+
 @endsection
+

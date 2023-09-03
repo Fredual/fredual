@@ -48,7 +48,9 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Formulario para guardar horarios
     Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'store']);
     //jquery
-    Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'all']);
+    //Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'all']);
+    //horario
+    Route::get('/horario/view', [App\Http\Controllers\Doctor\HorarioController::class, 'metodoQueDevuelveLaVista'])->name('horario.view');;
 
 });
 
