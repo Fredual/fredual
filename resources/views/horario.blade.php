@@ -14,7 +14,7 @@
             <div class="col-sm">
               <span>
                 <h5 class="mb-0">Selecionar Médico</h5>
-                <select class="form-control" id="miSelect" name="selectedValue">
+                <select class="form-control" id="miSelect" name="miSelect">
                   <option value="" selected>Seleccione un médico...</option>
                     @foreach ($doctors as $doctor)
                       <option value="{{$doctor->id}}">{{$doctor->name}}</option>
@@ -24,19 +24,30 @@
             </div>
             <div class="col-sm">
               <span>
-                <h5 class="mb-0">Selecionar Fecha</h5>
+                <h5 class="mb-0">Selecionar Fecha Inicio</h5>
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                       </div>
-                      <input class="form-control datepicker" id="fechaInput" type="text" value="06/20/2020">
+                      <input class="form-control datepicker" id="fechaInicio" name="fechaHora" placeholder="Selecionar Fecha" type="text">
+                    </div>
+                  </div>
+              </span>
+              <span>
+                <h5 class="mb-0">Selecionar Fecha Fin</h5>
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                      </div>
+                      <input class="form-control datepicker" id="fechaFin" name="fechaHora" placeholder="Selecionar Fecha" type="text">
                     </div>
                   </div>
               </span>
             </div>
             <div class="col-sm">
-              <button type="button" id="botonHoras" style="margin-top: 20px" class="btn btn-default">Consultar</button>
+              <button type="button" id="botonEnviar" style="margin-top: 20px" class="btn btn-info">Consultar</button>
             </div>
           </div>
         </div>
@@ -58,11 +69,15 @@
  <script>
     $(document).ready(function() {
     // Cuando se cambia el valor en el select
-    $("#botonHoras").click(function() {
+    $("#botonEnviar").click(function() {
         // Obtener el valor seleccionado del select
         var valorSeleccionado = $('#miSelect').val();
-        var fechaSeleccionada = $("#fechaInput").val();
+        var fechaInicio = $('#fechaInicio').val();
+        var fechaFin = $('#fechaFin').val();
 
+        console.log(valorSeleccionado);
+        console.log(fechaInicio);
+        console.log(fechaFin);
         // Limpiar el contenido existente en el div
         $('#vistaLaravel').empty();
 
@@ -71,7 +86,9 @@
             url: "{{ route('horario.view') }}", // Reemplaza con la ruta correcta
             type: "GET",
             data: { id: valorSeleccionado,
-              fecha: fechaSeleccionada }, // Enviar el id al controlador
+                    inicio: fechaInicio,
+                    fin: fechaFin
+                    }, // Enviar el id al controlador
             dataType: "html",
             success: function(response) {
                 $("#vistaLaravel").html(response); // Carga la vista en el div
