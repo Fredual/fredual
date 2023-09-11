@@ -40,69 +40,73 @@ class HorarioController extends Controller
     public function store(Request $request)
     {
 
-        $active = $request->input('active') ?: [];
-        $morning_start = $request->input('morning_start');
-        $morning_end = $request->input('morning_end');
-        $afternoon_start = $request->input('afternoon_start');
-        $afternoon_end = $request->input('afternoon_end');
-        $fecha = $request->input('fecha_doctors');
-        $id = $request->input('user_id');
-        $active = $request->input('active', []); // Usamos un valor predeterminado de un array vacío para asegurarnos de que siempre tengamos un array para iterar
+        //dd($request->all());
 
+        $fechas = $request->input('fechas_doctors');
+        $userIds = $request->input('user_id');
+        $actives = $request->input('active');
+        $morningStarts = $request->input('morning_start');
+        $morningEnds = $request->input('morning_end');
+        $afternoonStarts = $request->input('afternoon_start');
+        $afternoonEnds = $request->input('afternoon_end');
 
-        for ($i = 0; $i < 3; $i++) {
-
-            $isActive = isset($active[$i]) && $active[$i] == 1 ? 1 : 0;
-
+        //dd($fechas,$userIds,$actives,$morningStarts,$morningEnds,$afternoonStarts,$afternoonEnds);
+        
+        foreach ($fechas as $key => $fecha) {
+            info($fecha);
+        
             Horarios::updateOrCreate(
                 [
+                    'user_id' => $userIds[$key],
                     'fecha_doctors' => $fecha,
-                    'user_id' => $id
                 ],
                 [
-                    'active' => $isActive,
-                    'morning_start' => $morning_start[$i],
-                    'morning_end' => $morning_end[$i],
-                    'afternoon_start' => $afternoon_start[$i],
-                    'afternoon_end' => $afternoon_end[$i],
-
+                    'active' => $actives[$key],
+                    'morning_start' => $morningStarts[$key],
+                    'morning_end' => $morningEnds[$key],
+                    'afternoon_start' => $afternoonStarts[$key],
+                    'afternoon_end' => $afternoonEnds[$key],
+                    'day' => 0,
                 ]
             );
         }
 
-        return back();
+        return back()->with('success', 'Los datos se han guardado exitosamente.');
     }
 
     public function metodoQueDevuelveLaVista(Request $request)
     {
-
         $id = $request->input('id');
         $fechaInicio = Carbon::parse($request->input('inicio'));
         $fechaFin = Carbon::parse($request->input('fin'));
 
-        // Calcular la diferencia en días
-        $diferenciaDias = $fechaInicio->diffInDays($fechaFin);
-        $diferenciaDias += 1;
         // Crea un período de fechas entre la fecha de inicio y la fecha de fin, incluyendo ambas fechas.
         $period = CarbonPeriod::create($fechaInicio, $fechaFin);
-        // Inicializa un array para almacenar las fechas.
-        $fechasEnRango = [];
 
-        // Itera sobre el período y agrega cada fecha al array.
-        foreach ($period as $fecha) {
-            $fechasEnRango[] = $fecha->toDateString(); // Puedes cambiar el formato si lo necesitas.
-        }
+        $diferenciaDias = $fechaInicio->diffInDays($fechaFin);
+        $diferenciaDias += 1;
 
-       /*  info('Datos de la solicitud:', ['Rango de fechas' => $fechasEnRango]);
-        info('Datos de la solicitud:', ['id' => $id]);
-        info('Datos de la solicitud:', ['fecha inicio' => $fechaInicio]);
-        info('Datos de la solicitud:', ['fecha fin' => $fechaFin]);
-        info('Diferencia en días:', ['diferencia' => $diferenciaDias]); */
-
+        // Obtén todos los horarios dentro del rango de fechas en una sola consulta.
         $horarios = Horarios::where('user_id', $id)->whereBetween('fecha_doctors', [$fechaInicio, $fechaFin])->get();
 
-        info('Diferencia en días:', ['diferencia' => $horarios]);
+        // Inicializa un array para almacenar las fechas y su información.
+        $fechasConInformacion = [];
 
-        return view('doctors.hors', compact('horarios'));
+        // Itera sobre el período de fechas y procesa los horarios.
+        foreach ($period as $fecha) {
+            $fechaFormateada = $fecha->toDateString();
+            $fechasConInformacion[$fechaFormateada]['tieneInformacion'] = false;
+            $fechasConInformacion[$fechaFormateada]['horarios'] = [];
+
+            foreach ($horarios as $horario) {
+                if ($horario->fecha_doctors == $fechaFormateada) {
+                    $fechasConInformacion[$fechaFormateada]['tieneInformacion'] = true;
+                    $fechasConInformacion[$fechaFormateada]['horarios'][] = $horario;
+                }
+            }
+        }
+        //info('fechasConInformacion:', $fechasConInformacion);
+
+        return view('doctors.hors', compact('fechasConInformacion', 'id', 'diferenciaDias'));
     }
 }

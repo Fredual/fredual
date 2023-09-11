@@ -50,7 +50,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //jquery
     //Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'all']);
     //horario
-    Route::get('/horario/view', [App\Http\Controllers\Doctor\HorarioController::class, 'metodoQueDevuelveLaVista'])->name('horario.view');;
+    Route::post('/horario/view', [App\Http\Controllers\Doctor\HorarioController::class, 'metodoQueDevuelveLaVista'])->name('horario.view');
 
 });
 
