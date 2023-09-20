@@ -50,10 +50,27 @@ class HorarioController extends Controller
         $afternoonStarts = $request->input('afternoon_start');
         $afternoonEnds = $request->input('afternoon_end');
 
+        $errors = [];
+
+
         //dd($fechas,$userIds,$actives,$morningStarts,$morningEnds,$afternoonStarts,$afternoonEnds);
         
         foreach ($fechas as $key => $fecha) {
-            info($fecha);
+
+            
+            $horaMI = $morningStarts[$key];
+            $horaMF = $morningEnds[$key];
+            $horaMIFormateada = preg_replace('/^(\d):/', '0$1:', $horaMI);
+            $horaMFFormateada = preg_replace('/^(\d):/', '0$1:', $horaMF);
+
+            if($horaMIFormateada > $horaMFFormateada){
+                $errors [] = 'Inconsistencias en el intervalo de las horas del turno de la mañana del día '. $fecha;
+            }
+
+            if($afternoonStarts[$key] > $afternoonEnds[$key]){
+                $errors [] = 'Inconsistencias en el intervalo de las horas del turno de la tarde del día '. $fecha;
+            }
+            //info($fecha);
         
             Horarios::updateOrCreate(
                 [
@@ -71,7 +88,12 @@ class HorarioController extends Controller
             );
         }
 
-        return back()->with('success', 'Los datos se han guardado exitosamente.');
+        if(count($errors) > 0){
+            return back()->with(compact('errors'));
+        } else{
+            return back()->with('success', 'Los datos se han guardado exitosamente.');
+        }
+        
     }
 
     public function metodoQueDevuelveLaVista(Request $request)

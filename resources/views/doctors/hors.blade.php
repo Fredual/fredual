@@ -28,7 +28,7 @@
                     <div class="col">
                         <select class="form-control" name="morning_start[{{$fecha}}]">
                           <option value="{{$info['horarios'][0]->morning_start}}" selected>{{$info['horarios'][0]->morning_start}}</option>
-                            @for ($i = 8; $i <= 11; $i++)
+                            @for ($i = 7; $i <= 12; $i++)
                                 <option value="{{$i}}:00">{{$i}}:00 AM</option>
                                 <option value="{{$i}}:30">{{$i}}:30 AM</option>
                             @endfor
@@ -37,7 +37,7 @@
                     <div class="col">
                         <select class="form-control" name="morning_end[{{$fecha}}]">
                             <option value="{{$info['horarios'][0]->morning_end}}" selected>{{$info['horarios'][0]->morning_end}}</option>
-                            @for ($i = 8; $i <= 11; $i++)
+                            @for ($i = 7; $i <= 12; $i++)
                                 <option value="{{$i}}:00">{{$i}}:00 AM</option>
                                 <option value="{{$i}}:30">{{$i}}:30 AM</option>
                             @endfor
@@ -50,7 +50,7 @@
                     <div class="col">
                         <select class="form-control" name="afternoon_start[{{$fecha}}]">
                             <option value="{{$info['horarios'][0]->afternoon_start}}" selected>{{$info['horarios'][0]->afternoon_start}}</option>
-                            @for ($i = 2; $i <= 11; $i++)
+                            @for ($i = 1; $i <= 9; $i++)
                                 <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
                                 <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
                             @endfor
@@ -59,7 +59,7 @@
                     <div class="col">
                         <select class="form-control" name="afternoon_end[{{$fecha}}]">
                           <option value="{{$info['horarios'][0]->afternoon_end}}" selected>{{$info['horarios'][0]->afternoon_end}}</option>
-                            @for ($i = 2; $i <= 11; $i++)
+                            @for ($i = 1; $i <= 9; $i++)
                                 <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
                                 <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
                             @endfor
@@ -86,7 +86,7 @@
                 <div class="row">
                     <div class="col">
                         <select class="form-control" name="morning_start[{{$fecha}}]">
-                            @for ($i = 8; $i <= 11; $i++)
+                            @for ($i = 7; $i <= 12; $i++)
                                 <option value="{{$i}}:00">{{$i}}:00 AM</option>
                                 <option value="{{$i}}:30">{{$i}}:30 AM</option>
                             @endfor
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col">
                         <select class="form-control" name="morning_end[{{$fecha}}]">
-                            @for ($i = 8; $i <= 11; $i++)
+                            @for ($i = 7; $i <= 12; $i++)
                                 <option value="{{$i}}:00">{{$i}}:00 AM</option>
                                 <option value="{{$i}}:30">{{$i}}:30 AM</option>
                             @endfor
@@ -106,7 +106,7 @@
                 <div class="row">
                     <div class="col">
                         <select class="form-control" name="afternoon_start[{{$fecha}}]">
-                            @for ($i = 2; $i <= 11; $i++)
+                            @for ($i = 1; $i <= 9; $i++)
                                 <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
                                 <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
                             @endfor
@@ -114,7 +114,7 @@
                     </div>
                     <div class="col">
                         <select class="form-control" name="afternoon_end[{{$fecha}}]">
-                            @for ($i = 2; $i <= 11; $i++)
+                            @for ($i = 1; $i <= 9; $i++)
                                 <option value="{{$i+12}}:00">{{$i}}:00 PM</option>
                                 <option value="{{$i+12}}:30">{{$i}}:30 PM</option>
                             @endfor
@@ -125,8 +125,15 @@
         </tr>
     @endif
 @endforeach
-<div class="col">
-    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-</div>
 </tbody>
+
 </table>
+<div class="container">
+    <div class="row">
+      <div class="col-sm"></div>
+      <div class="col-sm">
+        <button type="submit" class="btn btn-default">Guardar Cambios</button>
+      </div>
+        <div class="col-sm"></div>
+    </div>
+</div>

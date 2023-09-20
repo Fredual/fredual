@@ -34,14 +34,14 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link " href="/">
+        <a class="nav-link " href="/reservarcitas/create">
           <i class="far fa-calendar-check text-danger"></i> Reservar Cita
         </a>
       </li>
       <!-- Doctores -->
     @elseif(auth()->user()->role == 'doctor')
       <li class="nav-item">
-        <a class="nav-link " href="/">
+        <a class="nav-link " href="/miscitas">
           <i class="fas fa-clock text-info"></i> Mis citas
         </a>
       </li>

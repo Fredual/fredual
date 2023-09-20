@@ -23,6 +23,26 @@ class UserTableSeeder extends Seeder
             'phone' => '3186235419',
             'role' => 'admin',
         ]);
+        User::create([
+            'name' => 'Johana Sotomonte',
+            'email' => 'johana@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'), // password
+            'cedula' => '1007029209',
+            'address' => 'Calle 48 23 27',
+            'phone' => '3186235419',
+            'role' => 'paciente',
+        ]);
+        User::create([
+            'name' => 'Martha Gonzalez',
+            'email' => 'martha@gmail.com',
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'), // password
+            'cedula' => '1007029209',
+            'address' => 'Calle 48 23 27',
+            'phone' => '3186235419',
+            'role' => 'doctor',
+        ]);
         User::factory()->count(100)->create();
     }
 }

@@ -51,6 +51,17 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Route::post('/horario', [App\Http\Controllers\Doctor\HorarioController::class, 'all']);
     //horario
     Route::post('/horario/view', [App\Http\Controllers\Doctor\HorarioController::class, 'metodoQueDevuelveLaVista'])->name('horario.view');
+    //Reservar Citas
+    Route::get('/reservarcitas/create', [App\Http\Controllers\AppointmentController::class, 'create']);
+    //Guardar citas
+    Route::post('/reservarcitas', [App\Http\Controllers\AppointmentController::class, 'store']);
+    //consulta de citas
+    Route::post('/miscitas', [App\Http\Controllers\AppointmentController::class, 'index']);
+
+    //JSON
+    Route::get('/especialidades/{specialty}/medicos', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);
+    Route::get('/intervalos/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
+
 
 });
 
