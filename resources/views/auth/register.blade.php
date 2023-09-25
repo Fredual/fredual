@@ -19,7 +19,7 @@
             <small>Ingresa tus datos</small>
           </div>
           @endif
-            <form role="form" method="POST" action="{{ route('register') }}">
+            <form role="form" method="POST" action="">
                 @csrf
               <div class="form-group">
                 <div class="input-group input-group-alternative mb-3">
@@ -52,9 +52,6 @@
                   </div>
                   <input class="form-control" placeholder="Repetir Contraseña" type="password" name="password_confirmation" required autocomplete="new-password">
                 </div>
-              </div>
-              <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-4">Crear Usuario</button>
               </div>
             </form>
           </div>

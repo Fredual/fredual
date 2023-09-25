@@ -72,7 +72,7 @@ use Illuminate\Support\Str;
                         <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
                     </div>
                     <input class="form-control datepicker" name="scheduled_date" id="date" placeholder="Seleccionar Fecha" type="text" value="{{old('scheduled_date'), date('Y-m-d')}}" data-date-format="yyyy-mm-dd"
-                    data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d">
+                   {{--  data-date-start-date="{{date('Y-m-d')}}" data-date-end-date="+30d" --}}>
                 </div>
             </div>
         </div>
@@ -87,7 +87,6 @@ use Illuminate\Support\Str;
                             <h4 class="m-3">En la mañana</h4>
                             @php
                                 $intervalsData = json_decode($intervals->getContent(), true);
-                                // Convierte el contenido de JsonResponse en un arreglo asociativo
                             @endphp
                             @foreach ($intervalsData['data']['morning'] as $key => $interval)
                                 <div class="custom-control custom-radio custom-control-inline custom-control-sm mb-2">

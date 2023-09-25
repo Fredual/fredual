@@ -9,6 +9,17 @@ use Carbon\Carbon;
 
 class HorarioService implements HorarioServiceInterface {
 
+
+    public function isAvailableInterval($date, $doctorId, Carbon $start){
+
+        $exists = Appointment::where('doctor_id',$doctorId)
+                ->where('scheduled_date', $date)
+                ->where('sheduled_time',$start->format('H:i:s'))
+                ->exists();
+
+        return !$exists;
+    }
+
     public function getAvailableIntervals($date, $doctorId){
         
         $horario = Horarios::where('active', true)
@@ -51,15 +62,12 @@ class HorarioService implements HorarioServiceInterface {
             $intervalo = [];
             $intervalo['start'] = $start->format('g:i A');
 
-            $exists = Appointment::where('doctor_id',$doctorId)
-                ->where('scheduled_date', $date)
-                ->where('sheduled_time',$start->format('H:i:s'))
-                ->exists();
+            $available = $this->isAvailableInterval($date, $doctorId, $start);
 
             $start->addMinutes(20);
             $intervalo['end'] = $start->format('g:i A');
 
-            if (!$exists) {
+            if ($available) {
                 $intervalos []= $intervalo;
             }
         }

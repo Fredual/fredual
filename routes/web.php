@@ -55,8 +55,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/reservarcitas/create', [App\Http\Controllers\AppointmentController::class, 'create']);
     //Guardar citas
     Route::post('/reservarcitas', [App\Http\Controllers\AppointmentController::class, 'store']);
-    //consulta de citas
-    Route::post('/miscitas', [App\Http\Controllers\AppointmentController::class, 'index']);
+    
 
     //JSON
     Route::get('/especialidades/{specialty}/medicos', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);
@@ -65,8 +64,14 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
 });
 
-Route::middleware(['auth', 'doctor'])->group(function(){
+Route::middleware(['auth'])->group(function(){
 
+    //consulta de citas
+    Route::get('/miscitas', [App\Http\Controllers\AppointmentController::class, 'index']);
+    //Cancelar cita
+    Route::post('/miscitas/{appointment}/cancel', [App\Http\Controllers\AppointmentController::class, 'cancel']);
+    //Confirmar Cita
+    Route::post('/miscitas/{appointment}/confirm', [App\Http\Controllers\AppointmentController::class, 'confirm']);
 
 });
 
