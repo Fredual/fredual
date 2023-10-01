@@ -18,11 +18,11 @@
     <div class="nav-wrapper position-relative end-0">
         <ul class="nav nav-pills nav-fill p-1" role="tablist">
             <li class="nav-item">
-                <a class="nav-link mb-sm-3 mb-md-0 active" data-toggle="tab" href="#ModuloUno" role="tab" aria-selected="true">
+                <a class="nav-link mb-sm-3 mb-md-0 active btn btn-secondary" data-toggle="tab" href="#ModuloUno" role="tab" aria-selected="true">
                     <i class="ni ni-calendar-grid-58 mr-2"></i>Modulo Uno</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mb-sm-3 mb-md-0" data-toggle="tab" href="#ModuloDos" role="tab" aria-selected="false">
+                <a class="nav-link mb-sm-3 mb-md-0 btn btn-secondary" data-toggle="tab" href="#ModuloDos" role="tab" aria-selected="false">
                     <i class="ni ni-bell-55 mr-2"></i>Modulo Dos</a>
             </li>
         </ul>

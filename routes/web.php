@@ -61,6 +61,10 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/especialidades/{specialty}/medicos', [App\Http\Controllers\Api\SpecialtyController::class, 'doctors']);
     Route::get('/intervalos/horas', [App\Http\Controllers\Api\HorarioController::class, 'hours']);
 
+    //Nombre de paciente y doctor
+    Route::get('/citas/nombres/{id}', [App\Http\Controllers\HomeController::class, 'buscarNombrePorId'])->name('citas.nombres');
+
+
 
 });
 

@@ -1,4 +1,4 @@
-<div class="card-body">
+<div class="table-responsive">
     <h2 class="text-center">Horarios de la Semana Actual</h2>
     <table id="tablaConsultas" class="table table-bordered table-striped">
         <thead class="bg-default text-white text-center">

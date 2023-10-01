@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var currentDate = new Date();
     var citasData = $("#citasData").data("citas");
-
+    console.log(citasData);
     function updateCalendar() {
         generateDateHeaders();
         generateTimeSlots();
@@ -38,27 +38,45 @@ $(document).ready(function () {
                         currentDate.getDate() - currentDate.getDay() + i
                     );
                     const fechaFormateada = formatDateToYYYYMMDD(dateColumn);
-                    //console.log(fechaFormateada);
-                    //console.log(fechaFormateada+" "+formatHourMinute(hour, minute));
                     
                     var cellText1 = "";
                     var cellText2 = "";
                     
                     for (let index = 0; index < citasData.length; index++) {
-                        //citasData[index].scheduled_date
+                        
+                        
+                        
                         var resultado = compararHoras(citasData[index].sheduled_time, formatHourMinute(hour, minute));
-                        //console.log(citasData[index].scheduled_date);
+                        
                         if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 101) ) {
-                            cellText1 = citasData[index].status+"<br>Ocupado<br>"+citasData[index].modulo;
+                            cellText1 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
+                                        +citasData[index].patient.name
+                                        +"<br>";
+                            if(citasData[index].status == "Confirmada"){
+                                cellText1 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
+                            } else if (citasData[index].status === "Reservada") {
+                                cellText1 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
+                            } else if (citasData[index].status === "Cancelada") {
+                                cellText1 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
+                            }
                             cellText2 = "";
                             break;
                         } else if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 102)){
-                            cellText2 = citasData[index].status+"<br>Ocupado<br>"+citasData[index].modulo;
+                            cellText2 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
+                                        +citasData[index].patient.name
+                                        +"<br>";
+                            if(citasData[index].status == "Confirmada"){
+                                cellText2 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
+                            } else if (citasData[index].status === "Reservada") {
+                                cellText2 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
+                            } else if (citasData[index].status === "Cancelada") {
+                                cellText2 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
+                            }
                             cellText1 = "";
                             break;
                         }
 
-                    
+                                           
                     }
                     
                     RowUno.append("<td>" + cellText1 + "</td>");
@@ -68,14 +86,6 @@ $(document).ready(function () {
                 $("#tbodyDos").append(RowDos);
             }
         }
-    }
-
-    function sonMismoDia(fecha1, fecha2) {
-        return (
-            fecha1.getFullYear() === fecha2.getFullYear() &&
-            fecha1.getMonth() === fecha2.getMonth() &&
-            fecha1.getDate() === fecha2.getDate()
-        );
     }
 
     function compararHoras(hora1, hora2) {
