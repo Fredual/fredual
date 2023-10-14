@@ -43,6 +43,11 @@
           <i class="fas fa-clock text-info"></i> Citas Medicas
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link " href="/turnos">
+          <i class="fas fa-users text-default"></i> Turnos
+        </a>
+      </li>
       <!-- Doctores -->
     @elseif(auth()->user()->role == 'doctor')
       <li class="nav-item">

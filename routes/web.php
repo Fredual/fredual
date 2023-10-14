@@ -64,6 +64,14 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Nombre de paciente y doctor
     Route::get('/citas/nombres/{id}', [App\Http\Controllers\HomeController::class, 'buscarNombrePorId'])->name('citas.nombres');
 
+    //turnos
+    Route::get('/turnos', [App\Http\Controllers\TurnController::class, 'index']);
+    //Llamar
+    Route::post('/turnos/{cita}', [App\Http\Controllers\TurnController::class, 'callTurns']);
+    //Mostrar turnos
+    Route::get('/turnos-publicos', [App\Http\Controllers\TurnController::class, 'indexPublic']);
+
+
 
 
 });
