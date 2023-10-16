@@ -25,77 +25,88 @@ $(document).ready(function () {
 
     function generateTimeSlots() {
         for (var hour = 7; hour <= 19; hour++) {
-            var collapseId = "collapseHour" + hour;
-            var collapseHeader = $("<div class='card-header' data-toggle='collapse' href='#" + collapseId + "'>Hora: " + hour + ":00</div>");
-            var collapseBody = $("<div id='" + collapseId + "' class='collapse'></div>");
-
-            for (var minute = 0; minute < 60; minute += 20) {
-                var RowUno = $("<tr>");
-                var RowDos = $("<tr>");
-                var hora44 = formatHourMinute(hour, minute);
-                RowUno.append("<td>" + hora44 + "</td>");
-                RowDos.append("<td>" + hora44 + "</td>");
-                for (var i = 0; i < 7; i++) {
-                    var dateColumn = new Date(
-                        currentDate.getFullYear(),
-                        currentDate.getMonth(),
-                        currentDate.getDate() - currentDate.getDay() + i
-                    );
-                    const fechaFormateada = formatDateToYYYYMMDD(dateColumn);
-                    
-                    var cellText1 = "";
-                    var cellText2 = "";
-                    
-                    for (let index = 0; index < citasData.length; index++) {
-                        
-                        
-                        
-                        var resultado = compararHoras(citasData[index].sheduled_time, formatHourMinute(hour, minute));
-                        
-                        if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 101) ) {
-                            cellText1 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
-                                        +citasData[index].patient.name
-                                        +"<br>";
-                            if(citasData[index].status == "Confirmada"){
-                                cellText1 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
-                            } else if (citasData[index].status === "Reservada") {
-                                cellText1 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
-                            } else if (citasData[index].status === "Cancelada") {
-                                cellText1 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
-                            }
-                            cellText2 = "";
-                            break;
-                        } else if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 102)){
-                            cellText2 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
-                                        +citasData[index].patient.name
-                                        +"<br>";
-                            if(citasData[index].status == "Confirmada"){
-                                cellText2 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
-                            } else if (citasData[index].status === "Reservada") {
-                                cellText2 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
-                            } else if (citasData[index].status === "Cancelada") {
-                                cellText2 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
-                            }
-                            cellText1 = "";
-                            break;
-                        }
-
-                                           
+          var collapseId = "collapseHour" + hour;
+          var Row1 = $("<tr data-toggle='collapse' data-target='#" + collapseId + "'>");
+          var Row2 = $("<tr data-toggle='collapse' data-target='#" + collapseId + "'>");
+          Row1.append("<td colspan='8'><button type='button' class='btn btn-sm btn-default'>" + formatHourMinute(hour, 0) + "</button></td>");
+          Row2.append("<td colspan='8'><button type='button' class='btn btn-sm btn-default'>" + formatHourMinute(hour, 0) + "</button></td>");
+      
+          for (var minute = 0; minute < 60; minute += 20) {
+            var horaIntervalo = formatHourMinute(hour, minute);
+            var intervaloCita1 = false;
+            var intervaloCita2 = false;
+      
+            var CollapseRow1 = $("<tr id='" + collapseId + "' class='collapse'>");
+            var CollapseRow2 = $("<tr id='" + collapseId + "' class='collapse'>");
+            CollapseRow1.append("<td>" + horaIntervalo + "</td>");
+            CollapseRow2.append("<td>" + horaIntervalo + "</td>");
+      
+            for (var i = 0; i < 7; i++) {
+              var dateColumn = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                currentDate.getDate() - currentDate.getDay() + i
+              );
+              const fechaFormateada = formatDateToYYYYMMDD(dateColumn);
+      
+              var cellText1 = "";
+              var cellText2 = "";
+              var intervaloCita1 = false;
+              var intervaloCita2 = false;
+      
+              for (let index = 0; index < citasData.length; index++) {
+                var resultado = compararHoras(citasData[index].sheduled_time, horaIntervalo);
+      
+                if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 101) ) {
+                    cellText1 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
+                                +citasData[index].patient.name
+                                +"<br>";
+                    if(citasData[index].status == "Confirmada"){
+                        cellText1 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
+                    } else if (citasData[index].status === "Reservada") {
+                        cellText1 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
+                    } else if (citasData[index].status === "Cancelada") {
+                        cellText1 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
                     }
-                    
-                    RowUno.append("<td>" + cellText1 + "</td>");
-                    RowDos.append("<td>" + cellText2 + "</td>");
+                    CollapseRow1.append("<td>" + cellText1 + "</td>");
+                    intervaloCita1 = true;
+                    cellText2 = "";
+                    break;
+                } else if (resultado && (citasData[index].scheduled_date == fechaFormateada && citasData[index].modulo == 102)){
+                    cellText2 = "Dr. "+citasData[index].doctor.name+"<br>Cliente: "
+                                +citasData[index].patient.name
+                                +"<br>";
+                    if(citasData[index].status == "Confirmada"){
+                        cellText2 += "<span class='text-success'><i class='fas fa-calendar-check'></i> "+citasData[index].status+"</span>";
+                    } else if (citasData[index].status === "Reservada") {
+                        cellText2 += "<span class='text-info'><i class='far fa-calendar'></i> "+citasData[index].status+"</span>";
+                    } else if (citasData[index].status === "Cancelada") {
+                        cellText2 += "<span class='text-danger'><i class='fas fa-calendar-times'></i> "+citasData[index].status+"</span>";
+                    }
+                    CollapseRow2.append("<td>" + cellText2 + "</td>");
+                    intervaloCita2 = true;
+                    cellText1 = "";
+                    break;
                 }
-                collapseBody.append(RowUno);
-                var collapseWrapper = $("<div class='card'></div>");
-                collapseWrapper.append(collapseHeader);
-                collapseWrapper.append(collapseBody);
 
-                $("#tbodyUno").append(collapseWrapper);
-                $("#tbodyDos").append(RowDos);
+                
+              }
+      
+              if (!intervaloCita1) {
+                CollapseRow1.append("<td></td>");
+              }
+              if (!intervaloCita2) {
+                CollapseRow2.append("<td></td>");
+              }
             }
+            
+            $("#tbodyUno").append(CollapseRow1);
+            $("#tbodyDos").append(CollapseRow2);
+          }
+          $("#tbodyUno").append(Row1);
+          $("#tbodyDos").append(Row2);
         }
-    }
+      }
 
     function compararHoras(hora1, hora2) {
         var partesHora1 = hora1.split(":");
