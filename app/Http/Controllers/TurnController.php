@@ -16,15 +16,6 @@ class TurnController extends Controller
         return view('turn.index',compact('citas'));
     }
 
-    public function register(Request $request)
-    {
-        /* $patient = new Patient();
-        $patient->name = $request->name;
-        $patient->save();
-
-        return response()->json(['success' => true]); */
-    }
-
     public function callTurns(Request $request,Appointment $cita)
     {
         $cita = Appointment::find($request->input('cita_id'));
