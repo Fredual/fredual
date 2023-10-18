@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interfaces\HorarioServiceInterface;
 use App\Models\Appointment;
 use App\Models\Specialty;
+use App\Models\Turnos;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -147,92 +148,6 @@ class AppointmentController extends Controller
     }
 
 
-    /* public function store(Request $request, HorarioServiceInterface $horarioServiceInterface){
-        //dd($request);
-        $rules = [
-            'sheduled_time' => 'required',
-            'type' => 'required',
-            'modulo' => 'required',
-            'doctor_id' => 'exists:users,id',
-            'patient_id' => 'exists:users,id',
-            'specialty_id' => 'exists:specialties,id'
-        ];
-
-        $message = [
-            'sheduled_time.required' => ' Debe seleccionar una hora válida para su cita',
-            'type.required' => ' Debe seleccionar el tipo de consulta',
-            'modulo.required' => ' Debe selecionar el modulo de la cita',
-            'patient_id.exists' => ' Seleccione un paciente'
-         ];
-
-        $validator = Validator::make($request->all(), $rules, $message);
-
-        $validator->after(function ($validator) use ($request, $horarioServiceInterface) {
-
-            $date = $request->input('scheduled_date');
-            $doctorId = $request->input('doctor_id');
-            $scheduled_time = $request->input('sheduled_time');
-
-            if ($date && $doctorId &&  $scheduled_time) {
-                if (is_array($scheduled_time)) {
-                    $scheduled_time = implode(' ', $scheduled_time); 
-                }                
-                $start = new Carbon($scheduled_time);
-            } else{
-                return;
-            }
-
-            if (!$horarioServiceInterface->isAvailableInterval($date, $doctorId, $start)) {
-                $validator->errors()->add(
-                    'available_time', 'La hora seleccionada ya se encuentra por otro paciente'
-                );
-            }
-        });
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-
-        $data = $request->only([
-
-            'scheduled_date',
-            'sheduled_time',
-            'type',
-            'modulo',
-            'observacion',
-            'patient_id',
-            'doctor_id',
-            'specialty_id'
-        ]);
-
-        $sheduledTimes = $request->input('sheduled_time', []);
-
-
-        foreach ($sheduledTimes as $sheduledTime) {
-
-            $carbonTime = Carbon::createFromFormat('g:iA', $sheduledTime);
-   
-            $sheduledTime = $carbonTime->format('H:i:s');
-            
-            $registro = new Appointment();
-            $registro->scheduled_date = $data['scheduled_date'];
-            $registro->sheduled_time = $sheduledTime;
-            $registro->type = $data['type'];
-            $registro->modulo = $data['modulo'];
-            $registro->observacion = $data['observacion'];
-            $registro->patient_id = $data['patient_id'];
-            $registro->doctor_id = $data['doctor_id'];
-            $registro->specialty_id = $data['specialty_id'];
-    
-            // Guarda el registro en la base de datos
-            $registro->save();
-        }
-
-        $notification = 'La cita se ha realizado correctamente.';
-
-        return redirect('/miscitas')->with(compact('notification'));
-    } */
 
     public function cancel(Appointment $appointment)
     {
@@ -248,10 +163,21 @@ class AppointmentController extends Controller
 
     public function confirm(Appointment $appointment)
     {
+      
+        $turno = New Turnos();
 
-        $appointment->status = 'Confirmada';
+        if ($appointment) {
+            $turno->cita_id = $appointment->id;
+            $turno->fecha_turno = $appointment->scheduled_date;
+            $turno->hora_inicio = Carbon::now()->format('H:i:s');
+            $turno->hora_fin = $turno->hora_inicio;
+            $turno->statusT = 'Pendiente';
+            $turno->save();
 
-        $appointment->save();
+            $appointment->status = 'Confirmada';
+            $appointment->save();
+
+        }
 
         $notification = 'La cita se ha confirmado correctamente.';
 

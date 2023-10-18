@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('modulo');
             $table->string('observacion')->nullable();
 
-
             //Paciente
             $table->unsignedBigInteger('patient_id');
             $table->foreign('patient_id')->references('id')->on('users')->onDelete('cascade');

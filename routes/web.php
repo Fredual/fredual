@@ -65,12 +65,14 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/citas/nombres/{id}', [App\Http\Controllers\HomeController::class, 'buscarNombrePorId'])->name('citas.nombres');
 
     //turnos
-    Route::get('/turnos', [App\Http\Controllers\TurnController::class, 'index']);
+    Route::get('/turnos', [App\Http\Controllers\TurnController::class, 'index'])->name('citas.actualizar');
     //Llamar
-    Route::post('/turnos/{cita}', [App\Http\Controllers\TurnController::class, 'callTurns']);
+    Route::post('/llamar-turno/{id}', [App\Http\Controllers\TurnController::class, 'callTurns']);
     //Mostrar turnos
-    Route::get('/turnos-publicos', [App\Http\Controllers\TurnController::class, 'indexPublic']);
-
+    Route::get('/turnos-publicos', [App\Http\Controllers\TurnController::class, 'turnosPublicos']);
+    //Actualizar Turnos
+    Route::get('/turno-llamado', [App\Http\Controllers\TurnController::class, 'getTurnoLlamado']);
+    Route::post('/atender-turno/{id}', [App\Http\Controllers\TurnController::class, 'atenderTurno']);
 
 
 

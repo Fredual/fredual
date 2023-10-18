@@ -38,4 +38,9 @@ class Appointment extends Model
     public function getScheduledTime12Attribute(){
         return (new Carbon($this->sheduled_time))->format('g:i A');
     }
+    
+    public function turno()
+    {
+        return $this->hasOne(Turno::class);
+    }
 }

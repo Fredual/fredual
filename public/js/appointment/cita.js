@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var currentDate = new Date();
     var citasData = $("#citasData").data("citas");
-    console.log(citasData);
+
     function updateCalendar() {
         generateDateHeaders();
         generateTimeSlots();
