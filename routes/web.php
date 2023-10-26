@@ -17,9 +17,12 @@ Route::get('/', function () {
     return view('Auth/login');
 });
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//Mostrar turnos
+Route::get('/turnos-publicos', [App\Http\Controllers\TurnController::class, 'turnosPublicos']);
+
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'admin'])->group(function(){
     
@@ -63,13 +66,12 @@ Route::middleware(['auth', 'admin'])->group(function(){
 
     //Nombre de paciente y doctor
     Route::get('/citas/nombres/{id}', [App\Http\Controllers\HomeController::class, 'buscarNombrePorId'])->name('citas.nombres');
-
     //turnos
     Route::get('/turnos', [App\Http\Controllers\TurnController::class, 'index'])->name('citas.actualizar');
     //Llamar
     Route::post('/llamar-turno/{id}', [App\Http\Controllers\TurnController::class, 'callTurns']);
-    //Mostrar turnos
-    Route::get('/turnos-publicos', [App\Http\Controllers\TurnController::class, 'turnosPublicos']);
+    //cerrar
+    Route::post('/cerrar-turno/{id}', [App\Http\Controllers\TurnController::class, 'cerrarTurno']);
     //Actualizar Turnos
     Route::get('/turno-llamado', [App\Http\Controllers\TurnController::class, 'getTurnoLlamado']);
     Route::post('/atender-turno/{id}', [App\Http\Controllers\TurnController::class, 'atenderTurno']);

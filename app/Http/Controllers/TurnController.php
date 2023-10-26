@@ -44,7 +44,7 @@ class TurnController extends Controller
         if ($turnoLlamado) {
             $nombrePaciente = $turnoLlamado->appointment->patient->name;
             $nombreModulo = $turnoLlamado->appointment->modulo;
-    
+
             return response()->json([
                 'turnoLlamado' => [
                     'id' => $turnoLlamado->id,
@@ -66,5 +66,12 @@ class TurnController extends Controller
         $turno->save();
 
         return response()->json(['message' => 'Turno atendido exitosamente']);
+    }
+
+    public function cerrarTurno($id)
+    {
+        $turno = Turnos::find($id);
+        $turno->hora_fin = now();
+        $turno->save();
     }
 }
