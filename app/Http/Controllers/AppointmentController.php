@@ -163,11 +163,14 @@ class AppointmentController extends Controller
 
     public function confirm(Appointment $appointment)
     {
-      
+        //dd($appointment);
+        $patient = User::findOrFail($appointment->patient_id);
+        //dd($patient);
         $turno = New Turnos();
-
+        
         if ($appointment) {
-            $turno->cita_id = $appointment->id;
+            $turno->nombre_paciente = $patient->name;
+            $turno->modulo_turno = $appointment->modulo;
             $turno->fecha_turno = $appointment->scheduled_date;
             $turno->hora_inicio = Carbon::now()->format('H:i:s');
             $turno->hora_fin = $turno->hora_inicio;

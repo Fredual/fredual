@@ -10,6 +10,10 @@ use Illuminate\Support\Str;
                 <div class="col">
                     <h3 class="mb-0">Llamar Pacientes</h3>
                 </div>
+                <div class="col text-right">
+                    <a href="{{-- {{url('')}} --}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#form">Nuevo
+                        Turno</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -19,15 +23,46 @@ use Illuminate\Support\Str;
                 </div>
             @endif
         </div>
+        <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h5 class="modal-title" id="exampleModalLabel">Crear Nuevo Turno</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{{ route('formulario.turno') }}">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="nombre_paciente">Nombre de Paciente</label>
+                                <input type="text" class="form-control" id="nombre_paciente" name="nombre_paciente" placeholder="Nombre Paciente">
+                            </div>
+                            <div class="form-group">
+                                <label for="modulo">Modulo</label>
+                                <select class="form-control" id="modulo" name="modulo">
+                                    <option>Seleccione...</option>
+                                    <option value="101">Modulo 1</option>
+                                    <option value="102">Modulo 2</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-top-0 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="table-responsive">
             <!-- Projects table -->
             <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                     <tr>
-                        <th scope="col">Medico</th>
                         <th scope="col">Paciente</th>
                         <th scope="col">Modulo</th>
-                        <th scope="col">Especialidad</th>
                         <th scope="col">Estado</th>
                         <th scope="col">Opciones</th>
                     </tr>
@@ -36,33 +71,28 @@ use Illuminate\Support\Str;
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     @foreach ($turnos as $turno)
                         <tr>
-                            <th scope="row">Dr. {{ $turno->appointment->doctor->name }}</th>
-                            <td>{{ $turno->appointment->patient->name }}</td>
-                            <td>{{ $turno->appointment->modulo }}</td>
-                            <td>{{ $turno->appointment->specialty->nombre }}</td>
+                            <td>{{ $turno->nombre_paciente }}</td>
+                            <td>{{ $turno->modulo_turno }}</td>
                             <td>{{ $turno->statusT }}</td>
                             <td>
                                 <button class="llamarTurno btn btn-sm btn-success" data-turno-id="{{ $turno->id }}"
-                                    data-nombre-paciente="{{ $turno->appointment->patient->name }}">Llamar Turno</button>
+                                    data-nombre-paciente="{{ $turno->nombre_paciente }}">Llamar Turno</button>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        <div class="modal fade  bd-example-modal-sm" id="modalTurno" tabindex="-1" role="dialog"
-            aria-labelledby="modalTurnoLabel" data-turno-id="">
+        <div class="modal fade bd-example-modal-sm" id="modalTurno" tabindex="-1" role="dialog"
+            aria-labelledby="modalTurnoLabel" data-turno-id="" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="modalTurnoLabel">Paciente LLamado</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h3 class="modal-title" id="modalTurnoLabel">Paciente Llamado</h3>
                     </div>
                     <div class="modal-body">
                         <!-- Aquí puedes agregar contenido para rellamar o cerrar el turno -->
-                        <h4>Nombre del paciente: <span id="nombrePaciente"></span></h4>
+                        <h4>Nombre: <span id="nombrePaciente"></span></h4>
                     </div>
                     <div class="modal-footer">
                         <button id="rellamarBtn" class="btn btn-primary">Rellamar Turno</button>
@@ -71,6 +101,7 @@ use Illuminate\Support\Str;
                 </div>
             </div>
         </div>
+
 
         <div class="cord-body">
             {{ $turnos->links() }}

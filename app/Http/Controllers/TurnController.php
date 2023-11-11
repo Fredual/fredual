@@ -7,6 +7,7 @@ use App\Models\Turnos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TurnController extends Controller
 {
@@ -42,8 +43,8 @@ class TurnController extends Controller
         $turnoLlamado = Turnos::where('statusT', 'Llamado')->orderBy('created_at', 'desc')->first();
 
         if ($turnoLlamado) {
-            $nombrePaciente = $turnoLlamado->appointment->patient->name;
-            $nombreModulo = $turnoLlamado->appointment->modulo;
+            $nombrePaciente = $turnoLlamado->nombre_paciente;
+            $nombreModulo = $turnoLlamado->modulo;
 
             return response()->json([
                 'turnoLlamado' => [
@@ -73,5 +74,26 @@ class TurnController extends Controller
         $turno = Turnos::find($id);
         $turno->hora_fin = now();
         $turno->save();
+    }
+
+    public function crearTurno(Request $request)
+    {
+
+        $turno = New Turnos();
+        if ($request) {
+            $turno->nombre_paciente = $request->input('nombre_paciente');
+            $turno->modulo_turno = $request->input('modulo');
+            $turno->fecha_turno = Carbon::now();
+            $turno->hora_inicio = Carbon::now()->format('H:i:s');
+            $turno->hora_fin = $turno->hora_inicio;
+            $turno->statusT = 'Pendiente';
+            $turno->save();
+        }
+        
+
+        // Realiza la lógica necesaria, como guardar en la base de datos, enviar correos, etc.
+
+        // Redirige a una página de éxito o a donde desees
+        return redirect()->back();
     }
 }

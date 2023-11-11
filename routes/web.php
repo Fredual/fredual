@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\CorreoMailable;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -57,7 +59,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Reservar Citas
     Route::get('/reservarcitas/create', [App\Http\Controllers\AppointmentController::class, 'create']);
     //Guardar citas
-    Route::post('/reservarcitas', [App\Http\Controllers\AppointmentController::class, 'store']);
+    Route::post('/reservarcitas', [App\Http\Controllers\AppointmentController::class, 'store']);   
     
 
     //JSON
@@ -68,6 +70,7 @@ Route::middleware(['auth', 'admin'])->group(function(){
     Route::get('/citas/nombres/{id}', [App\Http\Controllers\HomeController::class, 'buscarNombrePorId'])->name('citas.nombres');
     //turnos
     Route::get('/turnos', [App\Http\Controllers\TurnController::class, 'index'])->name('citas.actualizar');
+    Route::post('/turnos-create', [App\Http\Controllers\TurnController::class, 'crearTurno'])->name('formulario.turno');
     //Llamar
     Route::post('/llamar-turno/{id}', [App\Http\Controllers\TurnController::class, 'callTurns']);
     //cerrar
@@ -75,6 +78,15 @@ Route::middleware(['auth', 'admin'])->group(function(){
     //Actualizar Turnos
     Route::get('/turno-llamado', [App\Http\Controllers\TurnController::class, 'getTurnoLlamado']);
     Route::post('/atender-turno/{id}', [App\Http\Controllers\TurnController::class, 'atenderTurno']);
+
+    //Recodatorio
+    Route::get('recordatorio', function (){
+
+        Mail::to('fredual07@gmail.com')->send(new CorreoMailable);
+
+        return "Mensaje Enviado";
+
+    })->name('recordatorio');
 
 
 

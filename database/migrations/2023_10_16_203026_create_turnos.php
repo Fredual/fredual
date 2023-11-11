@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('turnos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cita_id');
+            $table->string('nombre_paciente');
+            $table->string('modulo_turno');
             $table->date('fecha_turno');
             $table->time('hora_inicio');
             $table->time('hora_fin'); 
             $table->string('statusT');
             $table->timestamps();
-            $table->foreign('cita_id')->references('id')->on('appointments')->onDelete('cascade');
+
         });
     }
 
